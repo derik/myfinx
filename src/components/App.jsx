@@ -20,11 +20,11 @@ const App = () => {
   );
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
       <Header />
       <Container maxWidth="sm">{user ? homePage : <SignIn />}</Container>
-    </React.Fragment>
+    </>
   );
 };
 

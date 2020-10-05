@@ -26,7 +26,7 @@ const AddExpense = () => {
   };
 
   return (
-    <div>
+    <>
       <IconButton
         color="primary"
         onClick={handleClickOpenDialog}
@@ -38,7 +38,7 @@ const AddExpense = () => {
         dialogOpen={dialogOpen}
         handleClickCloseDialog={handleClickCloseDialog}
       />
-    </div>
+    </>
   );
 };
 

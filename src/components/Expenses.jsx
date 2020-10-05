@@ -14,14 +14,14 @@ import Expense from "./Expense";
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
-  const { uid } = useContext(UserContext);
+  const { uid: userUid } = useContext(UserContext);
 
   useEffect(() => {
-    return expenseApi.subscribe(setExpenses, uid);
-  }, [uid]);
+    return expenseApi.subscribe(setExpenses, userUid);
+  }, [userUid]);
 
   return (
-    <div>
+    <>
       <TableContainer component={Paper}>
         <Table style={{ minWidth: 300 }}>
           <TableHead>
@@ -37,7 +37,7 @@ const Expenses = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </>
   );
 };
 
