@@ -4,17 +4,25 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  InputAdornment,
+  MenuItem,
   TextField,
-} from "@material-ui/core";
-import SaveIcon from "@material-ui/icons/Save";
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
-import React, { useContext, useState } from "react";
-import { expenseApi } from "../apis/expenseApi";
-import { UserContext } from "../providers/UserProvider";
+} from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
+import React, { useContext, useState, useEffect } from 'react';
+import { expenseApi } from '../apis/expenseApi';
+import { UserContext } from '../providers/UserProvider';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
-  const [name, setName] = useState("");
-  const [value, setValue] = useState("");
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
+  const [value, setValue] = useState('');
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    expenseApi.findAllCategories().then(setCategories);
+  }, []);
 
   const { uid } = useContext(UserContext);
 
@@ -28,14 +36,20 @@ const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
     setValue(value);
   };
 
+  const handleCategoryChange = (e) => {
+    const { value } = e.target;
+    setCategory(value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     expenseApi
-      .add({ name, value, userUid: uid })
-      .then(() => console.log("expense added!"));
-    setName("");
-    setValue("");
+      .add({ name, category, value, userUid: uid })
+      .then(() => console.log('expense added!'));
+    setName('');
+    setValue('');
+    setCategory('');
     handleClickCloseDialog();
   };
 
@@ -43,38 +57,57 @@ const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
     <Dialog
       open={dialogOpen}
       onClose={handleClickCloseDialog}
-      aria-labelledby="form-dialog-title"
+      aria-labelledby='form-dialog-title'
     >
-      <DialogTitle id="form-dialog-title">Add Expense</DialogTitle>
+      <DialogTitle id='form-dialog-title'>Add Expense</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <TextField
-            label="Expense name"
+            label='Expense name'
             value={name}
             onChange={handleNameChange}
-            margin="normal"
-            variant="outlined"
+            margin='normal'
+            variant='outlined'
             fullWidth
           />
-          <CurrencyTextField
-            label="Value"
+          <TextField
+            label='Category'
+            select
+            value={category}
+            onChange={handleCategoryChange}
+            margin='normal'
+            variant='outlined'
+            fullWidth
+          >
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.name}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label='Value'
             value={value}
             onChange={handleValueChange}
-            variant="outlined"
-            currencySymbol="$"
-            outputFormat="string"
-            decimalCharacter="."
-            digitGroupSeparator=","
-            margin="normal"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <AttachMoneyIcon />
+                </InputAdornment>
+              ),
+              endAdornment: <InputAdornment position='end'> zł</InputAdornment>,
+            }}
+            variant='outlined'
+            margin='normal'
             fullWidth
           />
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClickCloseDialog} color="primary">
+        <Button onClick={handleClickCloseDialog} color='primary'>
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary" startIcon={<SaveIcon />}>
+        <Button onClick={handleSubmit} color='primary' startIcon={<SaveIcon />}>
           Add
         </Button>
       </DialogActions>
