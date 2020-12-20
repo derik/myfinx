@@ -24,7 +24,7 @@ const useRowStyles = makeStyles({
   },
 });
 
-const Expense = ({ id, name, value, createdAt }) => {
+const Expense = ({ id, name, category, value, createdAt }) => {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   return (
@@ -40,6 +40,7 @@ const Expense = ({ id, name, value, createdAt }) => {
           </IconButton>
         </TableCell>
         <TableCell>{name}</TableCell>
+        <TableCell>{category}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

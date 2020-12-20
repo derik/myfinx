@@ -6,11 +6,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@material-ui/core";
-import React, { useContext, useEffect, useState } from "react";
-import { expenseApi } from "../apis/expenseApi";
-import { UserContext } from "../providers/UserProvider";
-import Expense from "./Expense";
+} from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { expenseApi } from '../apis/expenseApi';
+import { UserContext } from '../providers/UserProvider';
+import Expense from './Expense';
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
@@ -18,6 +18,7 @@ const Expenses = () => {
 
   useEffect(() => {
     return expenseApi.subscribe(setExpenses, userUid);
+    //expenseApi.findAll(userUid).then(setExpenses);
   }, [userUid]);
 
   return (
@@ -26,8 +27,9 @@ const Expenses = () => {
         <Table style={{ minWidth: 300 }}>
           <TableHead>
             <TableRow>
-              <TableCell width="5" />
+              <TableCell width='5' />
               <TableCell>Name</TableCell>
+              <TableCell>Category</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
