@@ -7,22 +7,28 @@ import {
   InputAdornment,
   MenuItem,
   TextField,
-} from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
-import React, { useContext, useState, useEffect } from 'react';
-import { expenseApi } from '../apis/expenseApi';
-import { UserContext } from '../providers/UserProvider';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+} from "@material-ui/core";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import SaveIcon from "@material-ui/icons/Save";
+import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { UserContext } from "../providers/UserProvider";
+import { createExpense } from "../redux/expenses/expense.actions";
+import { listCategories } from "../redux/categories/category.actions";
 
 const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
-  const [value, setValue] = useState('');
-  const [categories, setCategories] = useState([]);
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [value, setValue] = useState("");
+
+  const dispatch = useDispatch();
+
+  const categoryReducer = useSelector((state) => state.category);
+  const { categories } = categoryReducer;
 
   useEffect(() => {
-    expenseApi.findAllCategories().then(setCategories);
-  }, []);
+    dispatch(listCategories());
+  }, [dispatch]);
 
   const { uid } = useContext(UserContext);
 
@@ -44,12 +50,11 @@ const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    expenseApi
-      .add({ name, category, value, userUid: uid })
-      .then(() => console.log('expense added!'));
-    setName('');
-    setValue('');
-    setCategory('');
+    dispatch(createExpense({ name, category, value, userUid: uid }));
+
+    setName("");
+    setValue("");
+    setCategory("");
     handleClickCloseDialog();
   };
 
@@ -57,26 +62,26 @@ const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
     <Dialog
       open={dialogOpen}
       onClose={handleClickCloseDialog}
-      aria-labelledby='form-dialog-title'
+      aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id='form-dialog-title'>Add Expense</DialogTitle>
+      <DialogTitle id="form-dialog-title">Add Expense</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <TextField
-            label='Expense name'
+            label="Expense name"
             value={name}
             onChange={handleNameChange}
-            margin='normal'
-            variant='outlined'
+            margin="normal"
+            variant="outlined"
             fullWidth
           />
           <TextField
-            label='Category'
+            label="Category"
             select
             value={category}
             onChange={handleCategoryChange}
-            margin='normal'
-            variant='outlined'
+            margin="normal"
+            variant="outlined"
             fullWidth
           >
             {categories.map((category) => (
@@ -86,28 +91,28 @@ const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
             ))}
           </TextField>
           <TextField
-            label='Value'
+            label="Value"
             value={value}
             onChange={handleValueChange}
             InputProps={{
               startAdornment: (
-                <InputAdornment position='start'>
+                <InputAdornment position="start">
                   <AttachMoneyIcon />
                 </InputAdornment>
               ),
-              endAdornment: <InputAdornment position='end'> zł</InputAdornment>,
+              endAdornment: <InputAdornment position="end"> zł</InputAdornment>,
             }}
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             fullWidth
           />
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClickCloseDialog} color='primary'>
+        <Button onClick={handleClickCloseDialog} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color='primary' startIcon={<SaveIcon />}>
+        <Button onClick={handleSubmit} color="primary" startIcon={<SaveIcon />}>
           Add
         </Button>
       </DialogActions>

@@ -1,5 +1,4 @@
-const firebase = require('firebase');
-const { firestore } = require('./firebase');
+import { firestore } from './firebase';
 
 // CONTANTS
 const EXPENSE_COLLECTION_NAME = 'expenses';
@@ -26,14 +25,12 @@ const findAll = async (userUid) => {
     .get();
   const expenses = [];
   querySnapshot.forEach((doc) => {
-    console.log('expenses.push({ id: doc.id, ...doc.data() })');
     expenses.push({ id: doc.id, ...doc.data() });
   });
   return expenses;
 };
 
 const add = (expense) => {
-  console.log(firebase.firestore);
   return firestore.collection(EXPENSE_COLLECTION_NAME).add({
     name: expense.name,
     category: expense.category,

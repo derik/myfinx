@@ -1,16 +1,23 @@
-const { createStore, applyMiddleware, combineReducers } = require('redux');
-const { composeWithDevTools } = require('redux-devtools-extension');
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 
-const reducers = combineReducers({});
+import { categoryReducer } from './categories/category.reducer';
+import { expenseReducer } from './expenses/expense.reducer';
 
-const initialState = {
-  expenses: [],
-};
+const reducers = combineReducers({
+  expense: expenseReducer,
+  category: categoryReducer,
+});
 
-const middlewares = [];
+const initialState = {};
+
+const middlewares = [thunk];
 
 const store = createStore(
   reducers,
   initialState,
   composeWithDevTools(applyMiddleware(...middlewares))
 );
+
+export default store;
