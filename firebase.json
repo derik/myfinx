@@ -1,17 +1,22 @@
 {
   "hosting": {
     "public": "build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
       }
     ]
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8123
+    },
+    "ui": {
+      "enabled": true,
+      "port": 8124
+    }
   },
   "firestore": {
     "rules": "firestore.rules",

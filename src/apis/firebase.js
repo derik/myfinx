@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -14,6 +14,8 @@ const config = {
 firebase.initializeApp(config);
 
 export const firestore = firebase.firestore();
+//firestore.useEmulator("localhost", 8123);
+
 export const auth = firebase.auth();
 
 const provider = new firebase.auth.GoogleAuthProvider();

@@ -1,5 +1,4 @@
 import React from "react";
-import { expenseApi } from "../apis/expenseApi";
 import {
   TableRow,
   TableCell,
@@ -15,6 +14,8 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { useDispatch } from "react-redux";
+import { deleteExpense } from "../redux/expenses/expense.actions";
 
 const useRowStyles = makeStyles({
   root: {
@@ -24,8 +25,11 @@ const useRowStyles = makeStyles({
   },
 });
 
-const Expense = ({ id, name, value, createdAt }) => {
+const Expense = ({ id, name, category, value }) => {
   const [open, setOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
+
   const classes = useRowStyles();
   return (
     <>
@@ -40,6 +44,7 @@ const Expense = ({ id, name, value, createdAt }) => {
           </IconButton>
         </TableCell>
         <TableCell>{name}</TableCell>
+        <TableCell>{category}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -60,7 +65,7 @@ const Expense = ({ id, name, value, createdAt }) => {
                     <TableCell>{value}</TableCell>
                     <TableCell>
                       <IconButton>
-                        <DeleteIcon onClick={() => expenseApi.deleteById(id)} />
+                        <DeleteIcon onClick={() => dispatch(deleteExpense(id))} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
