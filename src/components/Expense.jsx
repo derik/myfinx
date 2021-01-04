@@ -15,7 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { useDispatch } from "react-redux";
-import { deleteExpense } from "../redux/expenses/expense.actions";
+import { deleteExpenseStart } from "../redux/expenses/expense.actions";
 
 const useRowStyles = makeStyles({
   root: {
@@ -65,7 +65,7 @@ const Expense = ({ id, name, category, value }) => {
                     <TableCell>{value}</TableCell>
                     <TableCell>
                       <IconButton>
-                        <DeleteIcon onClick={() => dispatch(deleteExpense(id))} />
+                        <DeleteIcon onClick={() => dispatch(deleteExpenseStart(id))} />
                       </IconButton>
                     </TableCell>
                   </TableRow>

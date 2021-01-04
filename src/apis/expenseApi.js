@@ -1,14 +1,14 @@
-import { firestore } from './firebase';
+import { firestore } from "./firebase";
 
 // CONTANTS
-const EXPENSE_COLLECTION_NAME = 'expenses';
-const CATEGORY_COLLECTION_NAME = 'categories';
+const EXPENSE_COLLECTION_NAME = "expenses";
+const CATEGORY_COLLECTION_NAME = "categories";
 
 const subscribe = (setExpenses, userUid) => {
   return firestore
-    .collection('expenses')
-    .where('userUid', '==', userUid)
-    .orderBy('createdAt', 'desc')
+    .collection("expenses")
+    .where("userUid", "==", userUid)
+    .orderBy("createdAt", "desc")
     .onSnapshot((snapshot) => {
       const expenses = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -21,7 +21,7 @@ const subscribe = (setExpenses, userUid) => {
 const findAll = async (userUid) => {
   const querySnapshot = await firestore
     .collection(EXPENSE_COLLECTION_NAME)
-    .where('userUid', '==', userUid)
+    .where("userUid", "==", userUid)
     .get();
   const expenses = [];
   querySnapshot.forEach((doc) => {

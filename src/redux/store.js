@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './root-saga';
 
 import { categoryReducer } from './categories/category.reducer';
 import { expenseReducer } from './expenses/expense.reducer';
@@ -12,12 +14,16 @@ const reducers = combineReducers({
 
 const initialState = {};
 
-const middlewares = [thunk];
+const sagaMiddleware = createSagaMiddleware();
+
+const middlewares = [sagaMiddleware];
 
 const store = createStore(
   reducers,
   initialState,
   composeWithDevTools(applyMiddleware(...middlewares))
 );
+
+sagaMiddleware.run(rootSaga);
 
 export default store;

@@ -13,8 +13,8 @@ import SaveIcon from "@material-ui/icons/Save";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from "../providers/UserProvider";
-import { createExpense } from "../redux/expenses/expense.actions";
-import { listCategories } from "../redux/categories/category.actions";
+import { createExpenseStart } from "../redux/expenses/expense.actions";
+import { fetchCategoriesStart } from "../redux/categories/category.actions";
 
 const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
   const [name, setName] = useState("");
@@ -27,7 +27,7 @@ const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
   const { categories } = categoryReducer;
 
   useEffect(() => {
-    dispatch(listCategories());
+    dispatch(fetchCategoriesStart());
   }, [dispatch]);
 
   const { uid } = useContext(UserContext);
@@ -50,7 +50,7 @@ const AddExpenseDialog = ({ dialogOpen, handleClickCloseDialog }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(createExpense({ name, category, value, userUid: uid }));
+    dispatch(createExpenseStart({ name, category, value, userUid: uid }));
 
     setName("");
     setValue("");

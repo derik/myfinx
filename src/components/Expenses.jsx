@@ -10,7 +10,7 @@ import {
 import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from "../providers/UserProvider";
-import { listExpenses } from "../redux/expenses/expense.actions";
+import { fetchExpensesStart } from "../redux/expenses/expense.actions";
 import Expense from "./Expense";
 
 const Expenses = () => {
@@ -22,7 +22,7 @@ const Expenses = () => {
   const { loading, error, expenses } = expense;
 
   useEffect(() => {
-    dispatch(listExpenses(userUid));
+    dispatch(fetchExpensesStart(userUid));
   }, [dispatch, userUid]);
 
   return (
