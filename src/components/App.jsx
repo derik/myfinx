@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Box, CircularProgress, Container, Grid } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
@@ -8,7 +8,7 @@ import Header from "./Header";
 import SignIn from "./SignIn";
 
 const App = () => {
-  const user = useContext(UserContext);
+  const authInfo = useContext(UserContext);
 
   const homePage = (
     <Grid container direction="column" justify="center" alignItems="center">
@@ -19,11 +19,19 @@ const App = () => {
     </Grid>
   );
 
+  const loader = (
+    <Box mt={5} display="flex" justifyContent="center">
+      <CircularProgress />
+    </Box>
+  );
+
   return (
     <>
       <CssBaseline />
       <Header />
-      <Container maxWidth="sm">{user ? homePage : <SignIn />}</Container>
+      <Container maxWidth="sm">
+        {authInfo.loading ? loader : authInfo.user ? homePage : <SignIn />}
+      </Container>
     </>
   );
 };

@@ -5,7 +5,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
 } from "@material-ui/core";
 import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,9 @@ import { listExpenses } from "../redux/expenses/expense.actions";
 import Expense from "./Expense";
 
 const Expenses = () => {
-  const { uid: userUid } = useContext(UserContext);
+  const {
+    user: { uid: userUid },
+  } = useContext(UserContext);
 
   const dispatch = useDispatch();
 

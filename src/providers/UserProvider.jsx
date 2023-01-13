@@ -4,15 +4,18 @@ import { auth } from "../apis/firebase";
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [authInfo, setAuthInfo] = useState({ user: null, loading: true });
 
   useEffect(() => {
     return auth.onAuthStateChanged(async (userAuth) => {
-      setUser(userAuth);
+      setAuthInfo({
+        user: userAuth,
+        loading: false,
+      });
     });
   }, []);
 
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={authInfo}>{children}</UserContext.Provider>;
 };
 
 export default UserProvider;
